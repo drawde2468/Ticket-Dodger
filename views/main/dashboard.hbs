@@ -1,5 +1,21 @@
-test
-
+User ID
 {{#if user}}
-  {{user._id}}
+ <li>{{user._id}}</li>
 {{/if}}
+<br>
+Parking
+{{#each parking}}
+    <li>Hours:{{this.time}} ${{this.rate}} Frequency: {{this.frequency}}</li>
+  {{/each}}
+<br>
+Tickets
+{{#each tickets}}
+    <li>${{this.cost}}</li>
+  {{/each}}
+
+<br>
+<a href="/parking">Add Parking</a>
+<br>
+<a href="/fines">Add Tickets</a>
+<br>
+<a href="/logout">Logout</a>

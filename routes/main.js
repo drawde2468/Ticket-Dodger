@@ -3,11 +3,34 @@ const router = express.Router();
 const ensureLogin = require("connect-ensure-login");
 const Parking = require("../models/parking");
 const Fine = require("../models/fine");
+const ObjectId = require('mongodb').ObjectID;
 
 router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("main/dashboard", {
-    user: req.user
-  });
+  let parking;
+  let tickets;
+
+  Parking.find({
+      user: ObjectId(`${req.user._id}`)
+    }).exec()
+
+    .then((parkingDb) => {
+      parking = parkingDb;
+      return Fine.find({
+        user: ObjectId(`${req.user._id}`)
+      }).exec()
+    })
+
+    .then((ticketDb) => {
+      tickets = ticketDb;
+    })
+
+    .then(() => {
+      res.render("main/dashboard", {
+        user: req.user,
+        parking: parking,
+        tickets: tickets
+      });
+    })
 });
 
 router.get("/parking", ensureLogin.ensureLoggedIn(), (req, res) => {
