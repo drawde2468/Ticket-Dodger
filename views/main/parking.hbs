@@ -1,0 +1,21 @@
+<form action="/parking" method="POST">
+  <div>
+    <label for="time">Hours:</label>
+    <input type="number" name="time">
+  </div>
+  <div>
+    <label for="rate">Rate:</label>
+    <input type="number" name="rate">
+  </div>
+  <select name="frequency">
+    <option value="Once">Once</option>
+    <option value="Daily">Daily</option>
+    <option value="Weekly">Weekly</option>
+  </select>
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <div>
+    <input type="submit" value="Enter">
+  </div>
+</form>

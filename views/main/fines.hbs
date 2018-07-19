@@ -1,0 +1,12 @@
+<form action="/fines" method="POST">
+  <div>
+    <label for="cost">Ticket Amount:</label>
+    <input type="number" name="cost">
+  </div>
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <div>
+    <input type="submit" value="Enter">
+  </div>
+</form>
