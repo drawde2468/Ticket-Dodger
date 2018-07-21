@@ -18,7 +18,7 @@ const User = require("./models/user");
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/ticket-dodger', {
+  .connect(process.env.MONGODB_URI, {
     useMongoClient: true
   })
   .then(() => {
@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(session({
-  secret: "our-passport-local-strategy-app", //process.env.SESSION_SECRET
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true
 }));
