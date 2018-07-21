@@ -4,11 +4,11 @@ const ensureLogin = require("connect-ensure-login");
 const Parking = require("../models/parking");
 const Fine = require("../models/fine");
 const ObjectId = require('mongodb').ObjectID;
+const moment = require("moment");
 
 router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
   let parking;
   let tickets;
-
   Parking.find({
       user: ObjectId(`${req.user._id}`)
     }).exec()
@@ -25,10 +25,45 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
     })
 
     .then(() => {
+      let total = 0;
+      // const calcDays = (milli) => { return Math.floor(milli / 1000 / 60 /60 /24); };
+
+
+      for (i = 0; i < parking.length; i++) {
+        if (parking[i].frequency === "Once") {
+          total += parking[i].time * parking[i].rate;
+        } else if (parking[i].frequency === "Daily") {
+          if (moment() < moment(parking[i].endDate)) {
+            let a = moment();
+            let b = moment(parking[i].startDate);
+            daysBetween = a.diff(b, 'days');
+            total += (parking[i].time * parking[i].rate) * daysBetween;
+          } else {
+            let a = moment(parking[i].startDate);
+            let b = moment(parking[i].endDate);
+            daysBetween = b.diff(a, 'days');
+            total += (parking[i].time * parking[i].rate) * daysBetween;
+          }
+        } else {
+          if (moment() < moment(parking[i].endDate)) {
+            let a = moment();
+            let b = moment(parking[i].startDate);
+            daysBetween = a.diff(b, 'days');
+            total += ((parking[i].time * parking[i].rate) * 1 / 7) * daysBetween;
+          } else {
+            let a = moment(parking[i].startDate);
+            let b = moment(parking[i].endDate);
+            daysBetween = b.diff(a, 'days');
+            total += ((parking[i].time * parking[i].rate) * 1 / 7) * daysBetween;
+          }
+        }
+      }
+
       res.render("main/dashboard", {
         user: req.user,
         parking: parking,
-        tickets: tickets
+        tickets: tickets,
+        sum: Math.round(total * 100) / 100
       });
     })
 });
@@ -43,6 +78,8 @@ router.post("/parking", (req, res) => {
   const time = req.body.time;
   const rate = req.body.rate;
   const frequency = req.body.frequency;
+  const start = req.body.start;
+  const end = req.body.end;
   const user = req.user._id
 
   if (time === "" || rate === "") {
@@ -56,6 +93,8 @@ router.post("/parking", (req, res) => {
     time: time,
     rate: rate,
     frequency: frequency,
+    startDate: start,
+    endDate: end,
     user: user
   });
 
@@ -102,7 +141,5 @@ router.post("/fines", (req, res) => {
     }
   });
 });
-
-
 
 module.exports = router;

@@ -3,15 +3,33 @@ User ID
  <li>{{user._id}}</li>
 {{/if}}
 <br>
+
 Parking
 {{#each parking}}
     <li>Hours:{{this.time}} ${{this.rate}} Frequency: {{this.frequency}}</li>
   {{/each}}
 <br>
+
 Tickets
 {{#each tickets}}
     <li>${{this.cost}}</li>
   {{/each}}
+<br>
+
+{{#each parking}}
+    ${{this}}<br>
+  {{/each}}
+<br>
+
+{{#if sum}}
+  {{sum}}
+  {{/if}}
+<br>
+{{#if test}}
+{{test}}
+{{/if}}
+
+
 
 <br>
 <a href="/parking">Add Parking</a>
