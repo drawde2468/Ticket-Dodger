@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 const ensureLogin = require("connect-ensure-login");
@@ -63,7 +65,8 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
         user: req.user,
         parking: parking,
         tickets: tickets,
-        sum: Math.round(total * 100) / 100
+        sum: Math.round(total * 100) / 100,
+        GOOGLE_API_KEY: process.env.GOOGLE_API_KEY
       });
     })
 });
@@ -117,7 +120,8 @@ router.get("/fines", ensureLogin.ensureLoggedIn(), (req, res) => {
 
 router.post("/fines", (req, res) => {
   const cost = req.body.cost;
-  const user = req.user._id
+  const loc = [req.body.lat, req.body.lon];
+  const user = req.user._id;
 
   if (cost === "") {
     res.render("main/fines", {
@@ -128,6 +132,7 @@ router.post("/fines", (req, res) => {
 
   const newFine = new Fine({
     cost: cost,
+    location: loc,
     user: user
   });
 

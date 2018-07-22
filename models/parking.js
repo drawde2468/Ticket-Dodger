@@ -4,8 +4,14 @@ const moment = require("moment");
 // Schema.Types.Decimal128
 
 const parkingSchema = new Schema({
-  time: Number,
-  rate: Number,
+  time: {
+    type: Number,
+    min: 0
+  },
+  rate: {
+    type: Number,
+    min: 0
+  },
   frequency: {
     type: String,
     enum: ["Once", "Daily", "Weekly"]

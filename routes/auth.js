@@ -49,7 +49,7 @@ router.post("/signup", (req, res) => {
           message: "Error: Could not save User."
         });
       } else {
-        res.redirect("/");
+        res.redirect("/login");
       }
     });
   }).catch(error => {
