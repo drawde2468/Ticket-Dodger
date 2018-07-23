@@ -1,17 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  document.getElementById('locBtn').onclick = () => {
+    locationCheck();
+  }
   console.log('JS imported successfully!');
 
 }, false);
 
 
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see the error "The Geolocation service
-// failed.", it means you probably did not give permission for the browser to
-// locate you.
-let map, infoWindow;
+let map, infoWindow, heatmap;
 
-function initMap() {
+initMap = () => {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 25.7617,
@@ -19,11 +18,26 @@ function initMap() {
     },
     zoom: 12
   });
+
+  getPoints = () => {
+    return [
+      new google.maps.LatLng(25.8173669, -80.3302065),
+      new google.maps.LatLng(37.782745, -122.444586),
+    ]
+  }
+
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints(),
+    map: map
+  });
+
+
+
   infoWindow = new google.maps.InfoWindow;
 
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
+    navigator.geolocation.getCurrentPosition((position) => {
       let pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -33,7 +47,7 @@ function initMap() {
       infoWindow.setContent('Current Location.');
       infoWindow.open(map);
       map.setCenter(pos);
-    }, function () {
+    }, () => {
       handleLocationError(true, infoWindow, map.getCenter());
     });
   } else {
@@ -42,13 +56,14 @@ function initMap() {
   }
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?
     'Error: The Geolocation service failed.' :
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
+
 
 locationCheck = () => {
   if (navigator.geolocation) {
@@ -59,8 +74,11 @@ locationCheck = () => {
         lng: position.coords.longitude
       };
 
+      document.getElementById('latReq').value = center.lat;
+      document.getElementById('lonReq').value = center.lng;
+
       console.log('center: ', center)
-    }, function () {
+    }, () => {
       console.log('Error in the geolocation service.');
     });
   } else {

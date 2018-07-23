@@ -7,8 +7,8 @@
     <legend>Optional</legend>
     <div>
       <label for="loc">Location:</label>
-      <input id="latReq" placeholder="Latitude" name="lat" type="number">
-      <input id="lonReq" placeholder="Longitute" name="lon" type="number">
+      <input id="latReq" placeholder="Latitude" name="lat" step="any" min="-90" max="90" type="number">
+      <input id="lonReq" placeholder="Longitute" name="lon" step="any" min="-180" max="180" type="number">
       <button type="button" id="locBtn">Use Location?</button>
     </div>
   </fieldset>

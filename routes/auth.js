@@ -3,7 +3,6 @@ const router = express.Router();
 const ensureLogin = require("connect-ensure-login");
 const passport = require("passport");
 
-
 // User model
 const User = require("../models/user");
 // Bcrypt to encrypt passwords
@@ -80,6 +79,5 @@ router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
-
 
 module.exports = router;

@@ -11,6 +11,7 @@ const moment = require("moment");
 router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
   let parking;
   let tickets;
+
   Parking.find({
       user: ObjectId(`${req.user._id}`)
     }).exec()
@@ -29,7 +30,6 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
     .then(() => {
       let total = 0;
       // const calcDays = (milli) => { return Math.floor(milli / 1000 / 60 /60 /24); };
-
 
       for (i = 0; i < parking.length; i++) {
         if (parking[i].frequency === "Once") {
@@ -68,7 +68,9 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
         sum: Math.round(total * 100) / 100,
         GOOGLE_API_KEY: process.env.GOOGLE_API_KEY
       });
-    })
+    }).catch((err) => {
+      console.log(err);
+    });
 });
 
 router.get("/parking", ensureLogin.ensureLoggedIn(), (req, res) => {
@@ -78,12 +80,15 @@ router.get("/parking", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 router.post("/parking", (req, res) => {
-  const time = req.body.time;
-  const rate = req.body.rate;
-  const frequency = req.body.frequency;
-  const start = req.body.start;
-  const end = req.body.end;
   const user = req.user._id
+
+  const {
+    time,
+    rate,
+    frequency,
+    start,
+    end
+  } = req.body;
 
   if (time === "" || rate === "") {
     res.render("main/parking", {
@@ -126,6 +131,13 @@ router.post("/fines", (req, res) => {
   if (cost === "") {
     res.render("main/fines", {
       message: "Fine cannot be empty."
+    });
+    return;
+  }
+
+  if (req.body.lat < -90 || req.body.lat > 90 || req.body.lon < -180 || req.body.lon > 180) {
+    res.render("main/fines", {
+      message: "Invalid latitude or longitude. We're on Earth."
     });
     return;
   }
