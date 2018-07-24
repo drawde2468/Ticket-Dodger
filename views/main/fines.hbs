@@ -3,15 +3,14 @@
     <label for="cost">Ticket Amount:</label>
     <input type="number" step="0.01" min="0" oninput="this.value = Math.abs(this.value)" name="cost">
   </div>
-  <fieldset>
-    <legend>Optional</legend>
+
     <div>
       <label for="loc">Location:</label>
       <input id="latReq" placeholder="Latitude" name="lat" step="any" min="-90" max="90" type="number">
       <input id="lonReq" placeholder="Longitute" name="lon" step="any" min="-180" max="180" type="number">
       <button type="button" id="locBtn">Use Location?</button>
     </div>
-  </fieldset>
+
 
   {{#if message}}
   <div class="error-message">{{ message }}</div>

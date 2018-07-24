@@ -1,27 +1,33 @@
+<div class="dash-container">
+  <div id="map"></div>
 
-<div id="map"></div>
+  <div>
+    <h4>Money Saved</h4>
+    <p>$
+      <span id="parking-sum">{{sum}}</span>
+    </p>
+  </div>
+
+  <div>
+    <h4>Tickets</h4>
+    <p id="ticket-sum"></p>
+  </div>
+
+  <div>
+    <h4>Net</h4>
+    <p id="net"></p>
+  </div>
+
+  <br>
+  <a href="/parking">Add Parking</a>
+  <br>
+  <a href="/fines">Add Tickets</a>
+  <br>
+  <a href="/logout">Logout</a>
 
 
-User ID {{#if user}}
-<li>{{user._id}}</li>
-{{/if}}
-<br> Parking {{#each parking}}
-<li>Hours:{{this.time}} ${{this.rate}} Frequency: {{this.frequency}}</li>
-{{/each}}
-<br> Tickets {{#each tickets}}
-<li>${{this.cost}}</li>
-{{/each}}
-<br>
-
-<br> {{#if sum}} {{sum}} {{/if}}
-<br> {{#if test}} {{test}} {{/if}}
-
-<br>
-<a href="/parking">Add Parking</a>
-<br>
-<a href="/fines">Add Tickets</a>
-<br>
-<a href="/logout">Logout</a>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=visualization&callback=initMap">
-</script>
+  <div id="hidden-list">
+    {{locations}} {{#each tickets}}
+    <div class="tickets">{{this.cost}}</div>
+    {{/each}}
+  </div>

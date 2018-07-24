@@ -11,6 +11,7 @@ const moment = require("moment");
 router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
   let parking;
   let tickets;
+  let allTickets;
 
   Parking.find({
       user: ObjectId(`${req.user._id}`)
@@ -25,11 +26,15 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
 
     .then((ticketDb) => {
       tickets = ticketDb;
+      return Fine.find({}, {
+        location: 1,
+        _id: 0
+      }).exec()
     })
 
-    .then(() => {
+    .then((ticketLocation) => {
+      allTickets = ticketLocation;
       let total = 0;
-      // const calcDays = (milli) => { return Math.floor(milli / 1000 / 60 /60 /24); };
 
       for (i = 0; i < parking.length; i++) {
         if (parking[i].frequency === "Once") {
@@ -61,10 +66,21 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
         }
       }
 
+      sortLoc = (arrObj) => {
+        let arr = [];
+        for (i = 0; i < arrObj.length; i++) {
+          arr.push(arrObj[i].location[0]);
+          arr.push(arrObj[i].location[1]);
+        }
+        return arr;
+      }
+
+      console.log(allTickets);
       res.render("main/dashboard", {
         user: req.user,
         parking: parking,
         tickets: tickets,
+        locations: sortLoc(allTickets),
         sum: Math.round(total * 100) / 100,
         GOOGLE_API_KEY: process.env.GOOGLE_API_KEY
       });
@@ -128,9 +144,9 @@ router.post("/fines", (req, res) => {
   const loc = [req.body.lat, req.body.lon];
   const user = req.user._id;
 
-  if (cost === "") {
+  if (cost === "" || cost < 0) {
     res.render("main/fines", {
-      message: "Fine cannot be empty."
+      message: "Fine must be greater than $0."
     });
     return;
   }

@@ -19,7 +19,7 @@ router.post("/signup", (req, res) => {
 
   if (username === "" || password === "") {
     res.render("auth/signup", {
-      message:"The username and password cannot be empty."
+      message: "The username and password cannot be empty."
     });
     return;
   }
@@ -57,23 +57,17 @@ router.post("/signup", (req, res) => {
 
 });
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("auth/private", {
-    user: req.user
-  });
-  console.log(req.user);
-});
-
 router.get("/login", (req, res, next) => {
   res.render("auth/login");
 });
 
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/dashboard",
-  failureRedirect: "/login",
-  failureFlash: true,
-  passReqToCallback: true
-}));
+router.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/login',
+    failureFlash: true
+  })
+);
 
 router.get("/logout", (req, res) => {
   req.logout();

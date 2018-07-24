@@ -18,9 +18,7 @@ const User = require("./models/user");
 
 mongoose.Promise = Promise;
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useMongoClient: true
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -33,6 +31,7 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 
 // Middleware Setup
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -44,45 +43,42 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
-passport.serializeUser((user, cb) => {
-  cb(null, user._id);
-});
-passport.deserializeUser((id, cb) => {
-  User.findById(id, (err, user) => {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, user);
-  });
-});
 app.use(flash());
-passport.use(new LocalStrategy({
-  passReqToCallback: true
-}, (req, username, password, next) => {
-  User.findOne({
-    username
-  }, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(null, false, {
-        message: "Incorrect username"
-      });
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, {
-        message: "Incorrect password"
-      });
-    }
-
-    return next(null, user);
-  });
-}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
 
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy(
+  (username, password, done) => {
+    User.findOne({
+      username: username
+    }, (err, user) => {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false, {
+          message: 'Incorrect username.'
+        });
+      }
+      if (!bcrypt.compareSync(password, user.password)) {
+        return done(null, false, {
+          message: 'Incorrect password.'
+        });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 // Express View engine setup
 
