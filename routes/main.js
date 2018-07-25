@@ -75,7 +75,6 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
         return arr;
       }
 
-      console.log(allTickets);
       res.render("main/dashboard", {
         user: req.user,
         parking: parking,
@@ -133,26 +132,26 @@ router.post("/parking", (req, res) => {
   });
 });
 
-router.get("/fines", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("main/fines", {
+router.get("/add-ticket", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("main/add-ticket", {
     user: req.user
   });
 });
 
-router.post("/fines", (req, res) => {
+router.post("/add-ticket", (req, res) => {
   const cost = req.body.cost;
   const loc = [req.body.lat, req.body.lon];
   const user = req.user._id;
 
   if (cost === "" || cost < 0) {
-    res.render("main/fines", {
+    res.render("main/add-ticket", {
       message: "Fine must be greater than $0."
     });
     return;
   }
 
   if (req.body.lat < -90 || req.body.lat > 90 || req.body.lon < -180 || req.body.lon > 180) {
-    res.render("main/fines", {
+    res.render("main/add-ticket", {
       message: "Invalid latitude or longitude. We're on Earth."
     });
     return;
@@ -166,7 +165,7 @@ router.post("/fines", (req, res) => {
 
   newFine.save((err) => {
     if (err) {
-      res.render("main/fines", {
+      res.render("main/add-ticket", {
         message: "Error: Could not save parking event."
       });
     } else {
@@ -174,5 +173,48 @@ router.post("/fines", (req, res) => {
     }
   });
 });
+
+router.get("/tickets", ensureLogin.ensureLoggedIn(), (req, res) => {
+
+  Fine.find({
+      user: ObjectId(`${req.user._id}`)
+    }).exec()
+
+    .then((userTicketsDB) => {
+      res.render("main/tickets", {
+        tickets: userTicketsDB
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+});
+
+router.get('/ticket/edit', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  Fine.findOne({
+      _id: req.query.ticket_id
+    })
+    .then((ticket) => {
+      res.render("main/edit-ticket", {
+        ticket
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+});
+
+router.post('/ticket/edit', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  const newCost = req.body.cost;
+  console.log(newCost);
+  Fine.update({_id: req.query.ticket_id}, {$set: {cost: newCost}}, {new: true})
+    .then(() => {
+      res.redirect('/tickets')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+});
+
 
 module.exports = router;

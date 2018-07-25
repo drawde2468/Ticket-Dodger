@@ -1,0 +1,14 @@
+{{#if tickets}}
+<h1>Tickets</h1>
+{{/if}}
+
+{{#each tickets}}
+    <p>
+        <span>Date Created: {{this.created_at}} Amount: ${{this.cost}}</span>
+        <a href="/ticket/edit?ticket_id={{this._id}}" class="edit-button">EDIT</a>
+    </p>
+{{/each}}
+
+{{#unless tickets}}
+  <h3>No tickets yet! Sweet!</h3>
+{{/unless}}

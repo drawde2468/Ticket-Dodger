@@ -1,0 +1,5 @@
+<form action="/ticket/edit?ticket_id={{ticket._id}}" method="post">
+    <label for="cost">Cost:</label>
+    <input type="number" step="0.01" min="0" name="cost" oninput="this.value = Math.abs(this.value)" value="{{ticket.cost}}">
+    <button type="submit">EDIT</button>
+</form>

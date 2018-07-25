@@ -1,9 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
+  locationCheck = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
 
-  const locButton = document.getElementById('locBtn').onclick = () => {
+        const center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        document.getElementById('latReq').value = center.lat;
+        document.getElementById('lonReq').value = center.lng;
+
+        console.log('center: ', center)
+      }, () => {
+        console.log('Error in the geolocation service.');
+      });
+    } else {
+      console.log('Browser does not support geolocation.');
+    }
+  }
+
+  document.getElementById('locBtn').onclick = () => {
     locationCheck();
   }
+  
 }, false);
+
+
 
 parseLoc = (str) => {
   arr = str.split(",");
@@ -16,34 +39,12 @@ parseLoc = (str) => {
 
 const hiddenList = document.querySelector("#hidden-list").innerText;
 const locArr = parseLoc(hiddenList);
-getPoints = (locArr) =>{
+getPoints = (locArr) => {
   coords = [];
   for (i = 0, j = 1; i <= locArr.length - 2; i++, j++) {
     coords.push(new google.maps.LatLng(locArr[i], locArr[j]))
   }
   return coords;
-}
-
-
-locationCheck = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-
-      const center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-      document.getElementById('latReq').value = center.lat;
-      document.getElementById('lonReq').value = center.lng;
-
-      console.log('center: ', center)
-    }, () => {
-      console.log('Error in the geolocation service.');
-    });
-  } else {
-    console.log('Browser does not support geolocation.');
-  }
 }
 
 var map, infoWindow, heatmap;
