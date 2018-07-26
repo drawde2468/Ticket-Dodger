@@ -1,33 +1,74 @@
-<div class="dash-container">
-  <div id="map"></div>
+<nav class="navbar navbar-dark bg-dark">
+  <span class="navbar-brand mb-0 h1">Navbar</span>
+</nav>
 
-  <div>
-    <h4>Money Saved</h4>
-    <p>$
-      <span id="parking-sum">{{sum}}</span>
-    </p>
+<div id="top-bg" class="bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div id="map" class="col-9"></div>
+    </div>
   </div>
+</div>
 
-  <div>
-    <h4>Tickets</h4>
-    <p id="ticket-sum"></p>
+<div id="bottom-bg" class="bg-secondary">
+  <div class="container">
+    <div class="row justify-content-around text-center" id="card-div">
+      <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Success card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Danger card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Info card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div>
-    <h4>Net</h4>
-    <p id="net"></p>
-  </div>
+{{!--
 
-  <br>
-  <a href="/parking">Add Parking</a>
-  <br>
-  <a href="/add-tickets">Add Tickets</a>
-  <br>
-  <a href="/logout">Logout</a>
+<div class="col">
+  <h4>Money Saved</h4>
+  <p>$
+    <span id="parking-sum">{{sum}}</span>
+  </p>
+</div>
+
+<div class="col">
+  <h4>Tickets</h4>
+  <p id="ticket-sum"></p>
+</div>
+
+<div class="col">
+  <h4>Net</h4>
+  <p id="net"></p>
+</div>
+</div> --}}
+
+<br>
+<a href="/parking">Add Parking</a>
+<br>
+<a href="/add-ticket">Add Tickets</a>
+<br>
+<a href="/logout">Logout</a>
 
 
-  <div id="hidden-list">
-    {{locations}} {{#each tickets}}
-    <div class="tickets">{{this.cost}}</div>
-    {{/each}}
-  </div>
+<div id="hidden-list">
+  {{locations}} {{#each tickets}}
+  <div class="tickets">{{this.cost}}</div>
+  {{/each}}
+</div>
+</div>
