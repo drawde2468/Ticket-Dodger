@@ -27,16 +27,17 @@
   font-size: 18px;
 }
 
-
-
-// #top-bg{
-//   background-color: black
-// }
-// /* Optional: Makes the sample page fill the window. */
-
-// html,
-// body {
-//   height: 100%;
-//   margin: 0;
-//   padding: 0;
-// }
+@media (max-width: 767.98px) { 
+  .container{
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .top-div{
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
