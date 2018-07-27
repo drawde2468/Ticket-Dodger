@@ -1,11 +1,21 @@
 #map {
   height: 450px;
-  margin: 10px 0; }
+  margin: 5px; }
 
 #hidden-list {
   display: none; }
 
 #card-div {
-  padding-top: 10px; }
+  padding-top: 20px; }
+
+#ticket-sum, #font-size-parking, #net {
+  font-size: 3em; }
+
+.card {
+  width: 286px;
+  height: 12em; }
+
+.card-header {
+  font-size: 18px; }
 
 /*# sourceMappingURL=style.css.map */

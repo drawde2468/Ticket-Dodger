@@ -1,23 +1,42 @@
-<div class="form">
-<h2>Signup</h2>
+<link rel='stylesheet' href='/stylesheets/auth.css' />
 
-<form action="/signup" method="POST" class="form-container">
-  <label for="username">Username</label>
-  <input id="username" type="text" name="username">
-  <br><br>
-  <label for="password">Password</label>
-  <input id="password" type="password" name="password" placeholder=>
 
-  {{#if message}}
-    <div class="error-message">{{ message }}</div>
-  {{/if}}
-  <br><br>
-
-  <button>Create account</button>
-
+<form class="form-signin bg-light rounded shadow text-center" action="/signup" method="POST">
+  <img class="mb-4" src="images/ticket_dodger_icon.png" alt="" width="72" height="72">
+  <h1 class="h3 mb-3 font-weight-normal">Signup</h1>
+  <label for="username" class="sr-only">Username</label>
+  <input type="username" class="form-control" placeholder="Username" name="username" required="" autofocus="">
+  <label for="password" class="sr-only">Password</label>
+  <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required="">
+  <div class="error-message">{{ message }}</div>
   <p class="account-message">
-    Do you already have an account?
+    Have an account?
     <a href="/login">Login</a>
   </p>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
 </form>
-</div>
+
+{{!--
+<div class="form">
+  <h2>Signup</h2>
+
+  <form action="/signup" method="POST" class="form-container">
+    <label for="username">Username</label>
+    <input id="username" type="text" name="username">
+    <br>
+    <br>
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" placeholder=> {{#if message}}
+    <div class="error-message">{{ message }}</div>
+    {{/if}}
+    <br>
+    <br>
+
+    <button>Create account</button>
+
+    <p class="account-message">
+      Do you already have an account?
+      <a href="/login">Login</a>
+    </p>
+  </form>
+</div> --}}

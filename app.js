@@ -15,7 +15,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 const User = require("./models/user");
 
-
 mongoose.Promise = Promise;
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -95,10 +94,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
-
 // default value for title local
 app.locals.title = 'Ticker Dodger';
-
 
 
 const index = require('./routes/index');
