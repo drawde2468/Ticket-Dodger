@@ -6,12 +6,8 @@
   margin: 5px;
 }
 
-#hidden-list{
+#hidden-elems{
   display: none;
-}
-
-#card-div{
-  padding-top: 20px;
 }
 
 #ticket-sum, #font-size-parking, #net {
@@ -27,7 +23,7 @@
   font-size: 18px;
 }
 
-@media (max-width: 767.98px) { 
+@media (max-width: 992px) { 
   .container{
     max-width: 100%;
     margin-left: 0;
@@ -41,3 +37,13 @@
     margin-right: 0;
   }
 }
+
+#card-div{
+  min-height: 300px;
+}
+
+#dash-footer{
+  height: 30px;
+  padding-top: 3px;
+}
+

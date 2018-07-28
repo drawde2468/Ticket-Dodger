@@ -72,6 +72,7 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res) => {
           arr.push(arrObj[i].location[0]);
           arr.push(arrObj[i].location[1]);
         }
+
         return arr;
       }
 
@@ -108,6 +109,13 @@ router.post("/parking", (req, res) => {
   if (time === "" || rate === "") {
     res.render("main/parking", {
       message: "Paking Time and Rate cannot be empty."
+    });
+    return;
+  }
+
+  if (frequency === "Daily" && start === "" || frequency === "Weekly" && start === "" || frequency === "Daily" && end === "" || frequency === "Weekly" && end === "") {
+    res.render("main/parking", {
+      message: "Please enter a Start and End Date"
     });
     return;
   }
@@ -150,7 +158,7 @@ router.post("/add-ticket", (req, res) => {
     return;
   }
 
-  if (req.body.lat < -90 || req.body.lat > 90 || req.body.lon < -180 || req.body.lon > 180) {
+  if (req.body.lat < -90 || req.body.lat > 90 || req.body.lon < -180 || req.body.lon > 180 || req.body.lat === "" || req.body.lon === "") {
     res.render("main/add-ticket", {
       message: "Invalid latitude or longitude. We're on Earth."
     });
@@ -207,7 +215,15 @@ router.get('/ticket/edit', ensureLogin.ensureLoggedIn(), (req, res, next) => {
 router.post('/ticket/edit', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   const newCost = req.body.cost;
   console.log(newCost);
-  Fine.update({_id: req.query.ticket_id}, {$set: {cost: newCost}}, {new: true})
+  Fine.update({
+      _id: req.query.ticket_id
+    }, {
+      $set: {
+        cost: newCost
+      }
+    }, {
+      new: true
+    })
     .then(() => {
       res.redirect('/tickets')
     })
@@ -215,6 +231,19 @@ router.post('/ticket/edit', ensureLogin.ensureLoggedIn(), (req, res, next) => {
       console.log(error)
     })
 });
+
+router.post('/ticket/delete', ensureLogin.ensureLoggedIn(), (req, res) => {
+ const ticketId = req.body.ticketId
+
+ Fine.findByIdAndRemove({_id: ticketId})
+  .then(() => {
+    res.redirect("/tickets")
+    console.log(`Successfully deleted ${ticketId}`)
+  }).catch((err) => {
+    console.log(err);
+  });
+});
+
 
 
 module.exports = router;

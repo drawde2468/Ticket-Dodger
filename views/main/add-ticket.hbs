@@ -15,30 +15,32 @@
 
 <div id="form-container">
   <form class="form-signin bg-light rounded shadow" action="/add-ticket" method="POST">
-      <h1 class="h3 mb-3 font-weight-normal text-center">Add Ticket</h1>
+    <h1 class="h3 mb-3 font-weight-normal text-center">Add Ticket</h1>
     <div class="form-row">
       <div class="form-group col-md-12">
         <label for="cost">Cost:</label>
-        <input type="number" class="form-control" step="0.01" min="0" oninput="this.value = Math.abs(this.value)" name="cost">
+        <input type="number" class="form-control" step="0.01" min="0.1" oninput="this.value = Math.abs(this.value)" name="cost">
       </div>
-      <div class="form-group col-md-5">
+      <div class="form-group col-md-6">
         <label for="lat">Latitude:</label>
         <input type="number" class="form-control" id="latReq" name="lat" step="any" min="-90" max="90">
       </div>
-      <div class="form-group col-md-5">
+      <div class="form-group col-md-6">
         <label for="lon">Longitude:</label>
         <input type="number" class="form-control" id="lonReq" name="lon" step="any" min="-180" max="180">
       </div>
-      <div class='col-md-2'>
-        <label for="location">Locate?</label>
-        <button type="button" id="locBtn" class="btn btn-dark">
-          <i class="fas fa-map-marked-alt fa-lg"></i>
+      <div class='form-group col-md-12'>
+        <button type="button" id="locBtn" class="btn btn-dark col-md-12">
+          Auto Locate &nbsp &nbsp<i class="fas fa-map-marked-alt fa-lg"></i>
         </button>
       </div>
+
+      {{#if message}}
+      <div class="error-message form-group text-danger">{{ message }}</div>
+      {{/if}}
+      <div class="col-md-12 form-group">
+        <button type="submit" class="btn btn-primary btn btn-primary col-md-12">Enter</button>
+      </div>
     </div>
-    {{#if message}}
-  <div class="error-message">{{ message }}</div>
-  {{/if}}
-    <button type="submit" class="btn btn-primary">Enter</button>
   </form>
 </div>

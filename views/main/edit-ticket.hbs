@@ -1,7 +1,10 @@
+<link rel='stylesheet' href='/stylesheets/forms.css' />
+
+
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="/dashboard">
-    <img src="images/ticket_dodger_icon.png" width="30" height="30" class="d-inline-block align-top bg-light rounded-circle" alt="">
-      Ticket Dodger
+    <img src="images/ticket_dodger_icon.png" width="30" height="30" class="d-inline-block align-top bg-light rounded-circle"
+      alt=""> Ticket Dodger
   </a>
   <span class="navbar-brand mb-0 h1"></span>
   <ul class="nav nav-pills">
@@ -11,8 +14,19 @@
   </ul>
 </nav>
 
-<form action="/ticket/edit?ticket_id={{ticket._id}}" method="post">
-    <label for="cost">Cost:</label>
-    <input type="number" step="0.01" min="0" name="cost" oninput="this.value = Math.abs(this.value)" value="{{ticket.cost}}">
-    <button type="submit">EDIT</button>
-</form>
+
+<div id="form-container">
+  <form class="form-signin bg-light rounded shadow" action="/ticket/edit?ticket_id={{ticket._id}}" method="POST">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Edit Ticket Amount
+    </h1>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="cost">Cost:</label>
+        <input type="number" class="form-control" step="0.01" min="0.1" value="{{ticket.cost}}" oninput="this.value = Math.abs(this.value)" name="cost">
+      </div>
+      <div class="col-md-12 form-group">
+        <button type="submit" class="btn btn-primary btn btn-warning col-md-12">Edit</button>
+      </div>
+    </div>
+  </form>
+</div>

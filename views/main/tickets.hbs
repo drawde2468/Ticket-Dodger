@@ -1,27 +1,40 @@
 <nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="/dashboard">
-    <img src="images/ticket_dodger_icon.png" width="30" height="30" class="d-inline-block align-top bg-light rounded-circle" alt="">
-      Ticket Dodger
-  </a>
-  <span class="navbar-brand mb-0 h1"></span>
-  <ul class="nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link active bg-danger" href="/logout">Log Out</a>
-    </li>
-  </ul>
+    <a class="navbar-brand" href="/dashboard">
+        <img src="images/ticket_dodger_icon.png" width="30" height="30" class="d-inline-block align-top bg-light rounded-circle"
+            alt=""> Ticket Dodger
+    </a>
+    <span class="navbar-brand mb-0 h1"></span>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active bg-danger" href="/logout">Log Out</a>
+        </li>
+    </ul>
 </nav>
 
 {{#if tickets}}
-<h1>Tickets</h1>
+<h1 class="text-center text-light">Tickets</h1>
+<table class="table bg-light">
+    <thead>
+        <tr>
+            <th scope="col">Date Created:</th>
+            <th scope="col">Amount:</th>
+            <th scope="col">Edit/Delete:</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each tickets}}
+        <tr>
+            <td>{{this.created_at}}</td>
+            <td>${{this.cost}}</td>
+            <td>
+                <a href="/ticket/edit?ticket_id={{this._id}}" role="button" class="edit-button btn btn-warning">EDIT</a>
+                <form action="/ticket/delete" style="display:inline-block" method="post">
+                    <input type="hidden" name="ticketId" id="" value="{{this._id}}">
+                    <button class="btn btn-danger" type="submit">DELETE</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 {{/if}}
-
-{{#each tickets}}
-    <p>
-        <span>Date Created: {{this.created_at}} Amount: ${{this.cost}}</span>
-        <a href="/ticket/edit?ticket_id={{this._id}}" class="edit-button">EDIT</a>
-    </p>
-{{/each}}
-
-{{#unless tickets}}
-  <h3>No tickets yet! Sweet!</h3>
-{{/unless}}

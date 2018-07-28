@@ -27,7 +27,7 @@
       </div>
       <div class="form-group col-md-12">
         <label for="frequency">Frequency:</label>
-        <div id="frequency-box">
+        <div>
           <select class="custom-select col-md-12" id="frequency-box" name="frequency">
             <option value="Once">Once</option>
             <option value="Daily">Daily</option>
@@ -36,18 +36,18 @@
         </div>
       </div>
 
-      <div class="form-group col-md-6 date-hide">
+      <div class="form-group col-md-6 hide-dates" id="start-hide">
         <label for="start">Start Date:</label>
         <input type="date" class="form-control" id="start" name="start">
       </div>
-      <div class="form-group col-md-6 date-hide">
+      <div class="form-group col-md-6 hide-dates" id="end-hide">
         <label for="lon">End Date:</label>
         <input type="date" class="form-control" id="end" name="end">
       </div>
     </div>
 
     {{#if message}}
-    <div class="error-message">{{ message }}</div>
+    <div class="error-message form-group text-danger">{{ message }}</div>
     {{/if}}
     <button type="submit" class="btn btn-primary">Enter</button>
   </form>

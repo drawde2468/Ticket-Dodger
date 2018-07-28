@@ -1,24 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  locationCheck = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-
-        const center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-
-        document.getElementById('latReq').value = center.lat;
-        document.getElementById('lonReq').value = center.lng;
-
-        console.log('center: ', center)
-      }, () => {
-        console.log('Error in the geolocation service.');
-      });
-    } else {
-      console.log('Browser does not support geolocation.');
-    }
-  }
 
   document.getElementById('locBtn').onclick = () => {
     locationCheck();
@@ -26,9 +6,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }, false);
 
+locationCheck = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
 
+      const center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      document.getElementById('latReq').value = center.lat;
+      document.getElementById('lonReq').value = center.lng;
+
+      console.log('center: ', center)
+    }, () => {
+      console.log('Error in the geolocation service.');
+    });
+  } else {
+    console.log('Browser does not support geolocation.');
+  }
+}
 
 parseLoc = (str) => {
+  console.log(str)
   arr = str.split(",");
   floatArr = [];
   for (i = 0; i < arr.length; i++) {
@@ -40,9 +40,11 @@ parseLoc = (str) => {
 const hiddenList = document.querySelector("#hidden-list").innerText;
 const locArr = parseLoc(hiddenList);
 getPoints = (locArr) => {
+  console.log(locArr);
   coords = [];
   for (i = 0, j = 1; i <= locArr.length - 2; i++, j++) {
     coords.push(new google.maps.LatLng(locArr[i], locArr[j]))
+    console.log(locArr[i], locArr[j])
   }
   return coords;
 }
@@ -55,95 +57,132 @@ function initMap() {
       lat: 25.7617,
       lng: -80.1918
     },
-    zoom: 12,
-    styles: [
-      {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-      {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-      {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+    zoom: 14,
+    styles: [{
+        elementType: 'geometry',
+        stylers: [{
+          color: '#242f3e'
+        }]
+      },
+      {
+        elementType: 'labels.text.stroke',
+        stylers: [{
+          color: '#242f3e'
+        }]
+      },
+      {
+        elementType: 'labels.text.fill',
+        stylers: [{
+          color: '#746855'
+        }]
+      },
       {
         featureType: 'administrative.locality',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#d59563'}]
+        stylers: [{
+          color: '#d59563'
+        }]
       },
       {
         featureType: 'poi',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#d59563'}]
+        stylers: [{
+          color: '#d59563'
+        }]
       },
       {
         featureType: 'poi.park',
         elementType: 'geometry',
-        stylers: [{color: '#263c3f'}]
+        stylers: [{
+          color: '#263c3f'
+        }]
       },
       {
         featureType: 'poi.park',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#6b9a76'}]
+        stylers: [{
+          color: '#6b9a76'
+        }]
       },
       {
         featureType: 'road',
         elementType: 'geometry',
-        stylers: [{color: '#38414e'}]
+        stylers: [{
+          color: '#38414e'
+        }]
       },
       {
         featureType: 'road',
         elementType: 'geometry.stroke',
-        stylers: [{color: '#212a37'}]
+        stylers: [{
+          color: '#212a37'
+        }]
       },
       {
         featureType: 'road',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#9ca5b3'}]
+        stylers: [{
+          color: '#9ca5b3'
+        }]
       },
       {
         featureType: 'road.highway',
         elementType: 'geometry',
-        stylers: [{color: '#746855'}]
+        stylers: [{
+          color: '#746855'
+        }]
       },
       {
         featureType: 'road.highway',
         elementType: 'geometry.stroke',
-        stylers: [{color: '#1f2835'}]
+        stylers: [{
+          color: '#1f2835'
+        }]
       },
       {
         featureType: 'road.highway',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#f3d19c'}]
+        stylers: [{
+          color: '#f3d19c'
+        }]
       },
       {
         featureType: 'transit',
         elementType: 'geometry',
-        stylers: [{color: '#2f3948'}]
+        stylers: [{
+          color: '#2f3948'
+        }]
       },
       {
         featureType: 'transit.station',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#d59563'}]
+        stylers: [{
+          color: '#d59563'
+        }]
       },
       {
         featureType: 'water',
         elementType: 'geometry',
-        stylers: [{color: '#17263c'}]
+        stylers: [{
+          color: '#17263c'
+        }]
       },
       {
         featureType: 'water',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#515c6d'}]
+        stylers: [{
+          color: '#515c6d'
+        }]
       },
       {
         featureType: 'water',
         elementType: 'labels.text.stroke',
-        stylers: [{color: '#17263c'}]
+        stylers: [{
+          color: '#17263c'
+        }]
       }
     ]
   });
-
-  // function getPoints() {
-  //   return [
-  //     new google.maps.LatLng(25.8173669, -80.3302065),
-  //     new google.maps.LatLng(25.8174344, -80.3302039)
-  //   ]
-  // }
 
   heatmap = new google.maps.visualization.HeatmapLayer({
     data: getPoints(locArr),
@@ -196,3 +235,5 @@ sumTickets = () => {
 ticketSum.innerText = `$ ${sumTickets()}`;
 
 net.innerText = `$ ${parseFloat(parkingSum.innerText) - sumTickets()}`;
+
+

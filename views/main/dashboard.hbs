@@ -21,9 +21,9 @@
   </div>
 </div>
 
-<div id="bottom-bg">
-  <div class="container text-center">
-    <div class="row justify-content-around text-center" id="card-div">
+<div>
+  <div class="container text-center" id="">
+    <div class="row justify-content-around text-center align-items-center" id="card-div">
       <div class="card text-white bg-success mb-3 shadow-lg" style="max-width: 18rem;">
         <div class="card-header">Money Saved</div>
         <div class="card-body">
@@ -51,8 +51,15 @@
   </div>
 </div>
 
-<div id="hidden-list">
-  {{locations}} {{#each tickets}}
+<div id="dash-footer" class="bg-dark text-secondary text-center">
+  Created by Edward Leslie
+</div>
+
+<div id="hidden-elems">
+  <div id="hidden-list">
+    {{locations}}
+  </div>
+  {{#each tickets}}
   <div class="tickets">{{this.cost}}</div>
   {{/each}}
 </div>

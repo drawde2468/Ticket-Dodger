@@ -6,7 +6,10 @@ const fineSchema = new Schema({
     type: Number,
     min: 0
   },
-  location: [Number],
+  location: {
+    type: [Number],
+    required: true
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
