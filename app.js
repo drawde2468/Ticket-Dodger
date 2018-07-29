@@ -95,7 +95,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Ticker Dodger';
+app.locals.title = 'Ticket Dodger';
 
 
 const index = require('./routes/index');
