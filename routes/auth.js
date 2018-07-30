@@ -58,7 +58,9 @@ router.post("/signup", (req, res) => {
 });
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login");
+  res.render("auth/login", { 
+   message: req.flash('error')
+  });
 });
 
 router.post('/login',
